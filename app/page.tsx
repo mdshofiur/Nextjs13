@@ -1,57 +1,30 @@
+import React, { use } from 'react'
 import Image from 'next/image'
-import styles from './page.module.css'
+import Link from "next/link";
 
-export default function Home() {
+
+async function SSRData() {
+  const data = await fetch("https://jsonplaceholder.typicode.com/posts");
+  return data.json();
+}
+
+export default async function Home() {
+  // const dataAll = await use(SSRData());
+    const dataAll = await SSRData();
+    console.log(dataAll);
   return (
-    <div className={styles.container}>
-      <main className={styles.main}>
-        <h1 className={styles.title}>
-          Welcome to <a href="https://nextjs.org">Next.js 13!</a>
-        </h1>
-
-        <p className={styles.description}>
-          Get started by editing{' '}
-          <code className={styles.code}>app/page.tsx</code>
-        </p>
-
-        <div className={styles.grid}>
-          <a href="https://beta.nextjs.org/docs" className={styles.card}>
-            <h2>Documentation &rarr;</h2>
-            <p>Find in-depth information about Next.js 13</p>
-          </a>
-
-          <a
-            href="https://github.com/vercel/next.js/tree/canary/examples"
-            className={styles.card}
-          >
-            <h2>Examples &rarr;</h2>
-            <p>Explore the Next.js 13 playground.</p>
-          </a>
-
-          <a
-            href="https://vercel.com/templates/next.js/app-directory?utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-            className={styles.card}
-          >
-            <h2>Deploy &rarr;</h2>
-            <p>Deploy your Next.js site to a public URL with Vercel.</p>
-          </a>
-        </div>
-      </main>
-
-      <footer className={styles.footer}>
-        <a
-          href="https://vercel.com?utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Powered by{' '}
-          <span className={styles.logo}>
-            <Image src="/vercel.svg" alt="Vercel Logo" width={72} height={16} />
-          </span>
-        </a>
-      </footer>
+    <div className='p-5'>
+      dfgdfg
+      {
+        dataAll.map((data: any, index: number) => {
+          return (
+            <div key={index} className='bg-gray-200 p-5 rounded-md my-2'>
+              <h1 className='text-xl font-bold'>{data.title}</h1>
+              <p className='text-gray-500'>{data.body}</p>
+            </div>
+          )
+        }
+        )}
     </div>
-  )
+  );
 }
